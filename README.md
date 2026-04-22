@@ -3,6 +3,11 @@
 # Recursive Embedded Memories (REMs):  
 ## Memory Placement and Integrative Behaviour in Language Models
 
+
+
+📄 **Paper (Full PDF):**  
+👉 **[Download here](paper/paper.pdf)**
+
 This repository contains the code and experimental pipeline for **Paper 2** in the REMs series.
 
 ## Overview
