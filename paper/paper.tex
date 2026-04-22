@@ -1,0 +1,370 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\title{Recursive Embedded Memories (REMs):\\
+Memory Placement and Integrative Behaviour in Language Models}
+
+\author{
+William Leyshon \\
+SmithWork-ai, United Kingdom \\
+\texttt{william@smithworkai.com}
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\textit{When memory is repositioned, it moves from being followed to being absorbed.}
+\end{center}
+
+\begin{abstract}
+
+This study examines the effect of memory placement on \textbf{Recursive Embedded Memories (REMs)}~\cite{Ley2026}, a structured representation previously introduced for high-density semantic encoding in Large Language Models (LLMs). REMs utilise a trigrammatic ``mentalese''-like format~\cite{fodor1975} (\(\|\text{concept.concept.concept}\|\)), enabling the compression of high-entropy conversational data into compact symbolic structures.
+
+We evaluate how REM placement influences model behaviour across three domains—Logic, Ethics, and Abstract Symbolism—by comparing two integration phases: \textbf{Pre-Load} (semantic priming) and \textbf{Post-Load} (reflective synthesis). Outputs are analysed using two complementary metrics: \textbf{REM Lift} (embedding-based semantic alignment relative to control) and a \textbf{Convergence Score} (token-level reuse of REM content).
+
+Results indicate minimal sensitivity in logic tasks, moderate effects in ethical reasoning, and a strong, consistent pattern in abstract prompts. In the abstract domain, Post-Load configuration produces an \(18.3\%\) convergence lift and a \(69.7\%\) win rate over Pre-Load. We refer to this transition as the \textbf{``Abstract Leap,''} in which memory shifts from directive influence toward integrated expression.
+
+These findings suggest that when REMs are introduced as a terminal context, they are more consistently incorporated into model outputs, particularly in open-ended tasks. This behaviour is consistent with a loop-like integration process, analogous to consolidation mechanisms observed in biological systems, and may provide a framework for the structured, \textbf{subconscious-like integration of identity and intent} in retrieval-augmented AI systems.
+
+\end{abstract}
+
+
+\section{Introduction}
+
+Large Language Models (LLMs) have demonstrated strong capabilities in pattern recognition, reasoning, and generative tasks. However, their handling of memory remains structurally limited, typically relying on prompt concatenation or retrieval-augmented generation (RAG) systems that treat memory as external context rather than an integrated component of model state.
+
+Recent work introduced \textbf{Recursive Embedded Memories (REMs)}~\cite{Ley2026} as a structured representation for high-density semantic encoding. REMs utilise a trigrammatic ``mentalese''-like format (\(\|\text{concept.concept.concept}\|\)), enabling compression of conversational information into compact symbolic units that can be re-injected into model prompts. This approach provides a mechanism for representing prior context in a form that is both compositional and reusable.
+
+While the representational properties of REMs have been explored, a key question remains unresolved: \textit{how does the placement of retrieved memory influence model behaviour?} In most retrieval-augmented systems, memory is introduced prior to the user input, implicitly framing it as instruction or context. However, this ordering assumption has not been systematically examined.
+
+In this work, we investigate the effect of memory placement by comparing two configurations: \textbf{Pre-Load} (memory before input) and \textbf{Post-Load} (memory after input). We evaluate these configurations across three task domains—Logic, Ethics, and Abstract Symbolism—to determine how memory integration varies with task constraint.
+
+To quantify these effects, we introduce two complementary metrics: \textbf{REM Lift}, measuring semantic alignment in embedding space relative to a control condition, and a \textbf{Convergence Score}, measuring token-level integration of REM content into model outputs. Together, these metrics allow us to distinguish between directive reuse and integrative incorporation of memory.
+
+Our results reveal a domain-dependent effect. Memory placement has negligible impact on structured logic tasks, moderate influence in ethical reasoning, and a strong, consistent effect in abstract prompts. In the latter case, Post-Load placement produces both higher convergence and greater directional consistency. We refer to this transition as the \textbf{``Abstract Leap,''} in which memory shifts from directive influence toward integrated expression.
+
+These findings suggest that memory placement is not a neutral implementation detail, but a controllable parameter that modulates how retrieved information is incorporated into model output. This has implications for the design of retrieval-augmented systems, particularly in contexts where the integration of prior context—rather than simple recall—is the primary objective.
+
+\section{Related Work}
+
+\subsection{Retrieval-Augmented Generation}
+
+Retrieval-Augmented Generation (RAG) has emerged as a standard approach for extending the effective context of Large Language Models (LLMs) by incorporating external knowledge sources at inference time. In typical RAG pipelines, retrieved documents or embeddings are concatenated with the user input and passed to the model as additional context.
+
+While effective for factual recall and grounding, these systems generally treat retrieved information as \textit{static context}. The placement of retrieved content—almost universally before the user input—is assumed rather than examined. In contrast, the present work isolates memory placement as an explicit experimental variable and evaluates its effect on model behaviour across task domains.
+
+\subsection{Prompt Engineering and Context Structuring}
+
+Prompt engineering techniques have demonstrated that model outputs are highly sensitive to input structure, including instruction ordering, formatting, and contextual framing. Prior work has explored techniques such as chain-of-thought prompting, system-level instructions, and role-based conditioning.
+
+However, these approaches primarily focus on improving task performance through better instruction design. The question of how structured memory representations interact with prompt ordering—particularly in terms of integration versus directive influence—remains underexplored. This study contributes to that gap by analysing how memory placement affects both semantic alignment and lexical integration.
+
+\subsection{Symbolic and Compressed Representations}
+
+Efforts to incorporate structured or symbolic representations into neural models have a long history, including hybrid neuro-symbolic systems and approaches to semantic compression. The use of compact, compositional units to represent higher-level concepts aligns with broader work on representation learning and abstraction.
+
+Recursive Embedded Memories (REMs)~\cite{Ley2026} extend this direction by introducing a fixed-length trigrammatic format designed for high-density semantic encoding. Rather than storing full natural language passages, REMs encode relational structure in a compressed symbolic form that can be re-injected into prompts. This study builds on that framework by examining how such representations are functionally integrated during generation.
+
+\subsection{Cognitive Analogies and Memory Integration}
+
+Analogies between neural networks and biological cognition are frequently used as conceptual tools for interpreting model behaviour. In particular, the role of the hippocampus in indexing and reactivating memory traces has been used to frame discussions of memory in artificial systems.
+
+While such analogies should not be taken as literal equivalence, they provide a useful lens for reasoning about how prior information may be reintroduced into active processing. The present work adopts this perspective cautiously, using it to interpret observed differences between directive (Pre-Load) and integrative (Post-Load) memory behaviour, rather than to assert biological correspondence.
+
+\section{Methods}
+
+\subsection{Experimental Design}
+
+We evaluate the effect of memory placement on language model output under three controlled conditions:
+
+\begin{itemize}
+\item \textbf{Control:} No retrieved memory is provided.
+\item \textbf{Pre-Load (PRE):} Retrieved memory (REMs) is presented before the user input.
+\item \textbf{Post-Load (POST):} Retrieved memory (REMs) is presented after the user input.
+\end{itemize}
+
+Let $x$ denote the user input and $\mathcal{R} = \{r_1, r_2, ..., r_n\}$ the set of retrieved REMs. The model response $y$ is generated under each condition as:
+
+\begin{align}
+y_{\text{control}} &= f(x) \\
+y_{\text{pre}} &= f(\mathcal{R}, x) \\
+y_{\text{post}} &= f(x, \mathcal{R})
+\end{align}
+
+Each condition is applied to an identical set of prompts, and responses are generated independently for comparison.
+
+\subsection{Task Domains}
+
+Prompts are grouped into three domains:
+
+\begin{itemize}
+\item \textbf{Logic:} Structured problems with constrained solution spaces
+\item \textbf{Ethics:} Morally ambiguous, value-based reasoning tasks
+\item \textbf{Abstract:} Open-ended or symbolic prompts with minimal constraints
+\end{itemize}
+
+Each domain contains $33$ prompts, yielding $99$ evaluations per condition.
+
+\subsection{Recursive Embedded Memories (REMs)}
+
+REMs are encoded using a trigrammatic “Mentalese” format:
+
+\begin{equation}
+\text{REM(node:label)} = \|\text{token}_1.\text{token}_2.\text{token}_3\|
+\end{equation}
+
+Each REM represents a compact semantic relation. The full REM set is defined as:
+
+\begin{equation}
+\mathcal{R} = \{r_i \mid r_i \in \mathbb{R}^3\}
+\end{equation}
+
+where each $r_i$ corresponds to a trigrammatic symbolic unit.
+
+\subsection{Metrics}
+
+\paragraph{Embedding Similarity}
+
+Let $\phi(\cdot)$ denote the embedding function. The similarity between a response $y$ and a REM $r_i$ is computed via cosine similarity:
+
+\begin{equation}
+\text{sim}(y, r_i) = \frac{\phi(y) \cdot \phi(r_i)}{\|\phi(y)\| \, \|\phi(r_i)\|}
+\end{equation}
+
+The mean similarity across all REMs is:
+
+\begin{equation}
+S(y, \mathcal{R}) = \frac{1}{|\mathcal{R}|} \sum_{i=1}^{|\mathcal{R}|} \text{sim}(y, r_i)
+\end{equation}
+
+\paragraph{REM Lift}
+
+REM Lift measures semantic alignment relative to the control condition:
+
+\begin{equation}
+\text{Lift}_{\text{pre}} = S(y_{\text{pre}}, \mathcal{R}) - S(y_{\text{control}}, \mathcal{R})
+\end{equation}
+
+\begin{equation}
+\text{Lift}_{\text{post}} = S(y_{\text{post}}, \mathcal{R}) - S(y_{\text{control}}, \mathcal{R})
+\end{equation}
+
+\paragraph{Convergence Score}
+
+Let $\mathcal{T}(\mathcal{R})$ be the set of tokens extracted from REMs. The convergence score is defined as:
+
+\begin{equation}
+C(y, \mathcal{R}) = \frac{1}{|\mathcal{T}(\mathcal{R})|} \sum_{t \in \mathcal{T}(\mathcal{R})} \mathbb{I}(t \in y)
+\end{equation}
+
+where $\mathbb{I}(\cdot)$ is the indicator function:
+
+\begin{equation}
+\mathbb{I}(t \in y) =
+\begin{cases}
+1 & \text{if } t \text{ appears in } y \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\paragraph{Win Rate}
+
+Win rates capture directional improvement:
+
+\begin{equation}
+\text{WinRate}_{\text{post} > \text{pre}} =
+\frac{1}{N} \sum_{i=1}^{N} \mathbb{I}\left( \text{Lift}_{\text{post}}^{(i)} > \text{Lift}_{\text{pre}}^{(i)} \right)
+\end{equation}
+
+\subsection{Implementation}
+
+The pipeline is implemented in Python using:
+
+\begin{itemize}
+\item \textbf{Embedding Model:} \texttt{BAAI/bge-small-en}
+\item \textbf{Similarity Computation:} NumPy-based cosine similarity
+\item \textbf{Data Storage:} \texttt{.csv} files
+\end{itemize}
+
+All conditions are executed independently to ensure no cross-condition contamination.
+
+\section{Results}
+
+\subsection{Overview}
+
+We evaluate the effect of memory placement across three domains—Logic, Ethics, and Abstract—using two primary metrics: \textbf{REM Lift} (semantic alignment relative to control) and \textbf{Convergence Score} (token-level integration of REM content). Results are reported as mean values across $N=33$ prompts per domain, along with directional win rates.
+
+\subsection{Semantic Alignment (REM Lift)}
+
+\paragraph{Logic}
+
+\begin{itemize}
+\item Pre-Load Lift: $-0.00012$
+\item Post-Load Lift: $+0.00210$
+\item Post $>$ Pre: $48.5\%$
+\end{itemize}
+
+REM Lift values remain near zero, with no consistent directional advantage. This indicates minimal sensitivity to memory placement in structured tasks.
+
+\paragraph{Ethics}
+
+\begin{itemize}
+\item Pre-Load Lift: $+0.00687$
+\item Post-Load Lift: $+0.00802$
+\item Post $>$ Pre: $54.5\%$
+\end{itemize}
+
+A small increase in semantic alignment is observed under Post-Load, though the effect size remains modest.
+
+\paragraph{Abstract}
+
+\begin{itemize}
+\item Pre-Load Lift: $-0.00382$
+\item Post-Load Lift: $+0.00180$
+\item Post $>$ Pre: $60.6\%$
+\end{itemize}
+
+A clear directional shift is observed. Pre-Load produces negative lift, while Post-Load yields positive alignment relative to control.
+
+\subsection{Lexical Convergence}
+
+\paragraph{Logic}
+
+\begin{itemize}
+\item Pre-Load: $0.230$
+\item Post-Load: $0.306$
+\item Lift: $+0.076$
+\item Post $>$ Pre: $39.4\%$
+\end{itemize}
+
+Convergence increases slightly under Post-Load, though directional consistency is limited.
+
+\paragraph{Ethics}
+
+\begin{itemize}
+\item Pre-Load: $0.446$
+\item Post-Load: $0.496$
+\item Lift: $+0.050$
+\item Post $>$ Pre: $48.5\%$
+\end{itemize}
+
+Moderate increases in convergence are observed, with near-balanced directional outcomes.
+
+\paragraph{Abstract}
+
+\begin{itemize}
+\item Pre-Load: $0.392$
+\item Post-Load: $0.574$
+\item Lift: $+0.183$
+\item Post $>$ Pre: $69.7\%$
+\end{itemize}
+
+A substantial increase in convergence is observed under Post-Load, with strong directional consistency.
+
+\subsection{Cross-Domain Comparison}
+
+Across both metrics, the effect of memory placement scales with task openness:
+
+\begin{itemize}
+\item \textbf{Logic:} Minimal effect across all metrics
+\item \textbf{Ethics:} Moderate increases in both alignment and convergence
+\item \textbf{Abstract:} Strong increases, particularly in convergence
+\end{itemize}
+
+\subsection{Aggregate Convergence}
+
+Across all domains:
+
+\begin{itemize}
+\item Pre-Load Mean: $0.356$
+\item Post-Load Mean: $0.459$
+\item Lift: $+0.103$
+\item Post $>$ Pre: $52.5\%$
+\end{itemize}
+
+This indicates an overall increase in lexical integration under Post-Load conditions.
+
+\subsection{Summary of Findings}
+
+\begin{itemize}
+\item Memory placement has negligible effect in logic tasks.
+\item Post-Load placement produces modest improvements in ethical reasoning.
+\item Post-Load placement produces strong and consistent increases in convergence in abstract tasks.
+\item Directional consistency emerges primarily in abstract prompts, with Post-Load outperforming Pre-Load in $69.7\%$ of cases.
+\end{itemize}
+
+\section{Discussion}
+
+\subsection{Summary of Findings}
+
+This study examined how the placement of Recursive Embedded Memories (REMs) influences model output across tasks of varying constraint. The results show a consistent pattern: minimal effects in logic tasks, moderate effects in ethical reasoning, and strong, directional effects in abstract prompts. Across both semantic alignment and lexical convergence, Post-Load placement produces the most pronounced differences in open-ended domains.
+
+\subsection{Directive vs Integrative Behaviour}
+
+A key distinction emerges between the two placement strategies. Pre-Load REMs, positioned before the user input, tend to act as \textit{directive context}, often resulting in literal token reuse or framing effects. In contrast, Post-Load REMs, positioned after the input, exhibit behaviour consistent with \textit{integrative context}, influencing how the response is synthesised rather than simply how it is prefaced.
+
+This distinction is supported by the divergence between semantic lift and convergence metrics. While semantic alignment shows relatively small changes, convergence increases substantially under Post-Load conditions, particularly in abstract tasks. This suggests that memory placement primarily affects how retrieved content is expressed, rather than whether it is retrieved.
+
+\subsection{Task Dependency}
+
+The strength of the observed effects varies systematically with task type. In logic tasks, the constrained nature of the problem space appears to limit the influence of external memory, resulting in near-zero lift and low directional consistency. Ethical tasks show moderate sensitivity, indicating that memory can influence framing without dominating the outcome.
+
+In contrast, abstract tasks exhibit strong and consistent effects across both metrics. The increased convergence and higher win rates under Post-Load suggest that open-ended prompts provide sufficient flexibility for retrieved memory to be incorporated into the generation process. This domain-dependent behaviour indicates that memory placement interacts with the degree of structural constraint in the task.
+
+\subsection{Interpretation of the ``Abstract Leap''}
+
+The transition observed in abstract tasks—characterised by increased convergence and directional consistency under Post-Load—is referred to as the \textbf{``Abstract Leap.''} This effect reflects a shift from directive reuse toward integrated expression of memory content.
+
+Rather than treating REMs as external instructions, the model appears to incorporate them into the generative process when they are introduced after the input. This behaviour is consistent with a loop-like integration mechanism, in which retrieved structures are reintroduced into active processing rather than simply appended as context.
+
+\subsection{Conceptual Implications}
+
+These findings support a view of memory in LLM systems as not only a retrieval problem, but also a \textit{placement and integration problem}. The distinction between directive and integrative memory behaviour suggests that prompt structure plays a critical role in determining how retrieved information is used.
+
+The observed Post-Load behaviour is consistent with a conceptual model in which compressed memory representations are reactivated and incorporated into output generation in a loop-like manner. While this does not imply biological equivalence, it provides a useful framework for thinking about structured, \textbf{subconscious-like integration of identity and intent} in retrieval-augmented systems.
+
+\subsection{Limitations}
+
+Several limitations should be noted. First, the convergence metric is sensitive to token overlap and may overestimate integration in cases of direct reuse. Second, semantic similarity is bounded by baseline alignment between prompts and REMs, which may reduce sensitivity to deeper structural effects. Third, the experiments were conducted using a single model configuration and embedding space. Finally, statistical significance testing was not performed, and results should therefore be interpreted as directional.
+
+\subsection{Future Directions}
+
+Future work may explore alternative memory encodings, larger model scales, and multi-step integration processes. In particular, extending REMs into continuous or recursive loops may provide a pathway toward more persistent and structured internal context in language models.
+
+\section{Conclusion}
+
+This study investigated the effect of memory placement on the behaviour of Recursive Embedded Memories (REMs) in Large Language Models (LLMs). By comparing Pre-Load and Post-Load configurations across logic, ethics, and abstract task domains, we isolate memory placement as a controllable variable in retrieval-augmented systems.
+
+Results show that the impact of memory placement is strongly domain-dependent. Structured logic tasks exhibit minimal sensitivity, ethical tasks show moderate effects, and abstract tasks demonstrate a clear and consistent response. In particular, Post-Load placement produces substantial increases in lexical convergence and improved directional consistency in open-ended prompts.
+
+These findings indicate that memory placement is not a neutral implementation detail, but a factor that modulates how retrieved information is incorporated into model output. Pre-Load configurations tend toward directive influence, while Post-Load configurations enable more consistent integration, particularly under conditions of low task constraint.
+
+More broadly, this work suggests that structured memory representations such as REMs can influence not only what information is retrieved, but how it is expressed. The observed shift toward integrative behaviour in Post-Load configurations provides a basis for further exploration of persistent internal context in language models.
+
+Future work may investigate alternative memory structures, scaling behaviour across larger models, and the interaction between memory placement and multi-step reasoning. In particular, extending this framework to continuous or recursive memory loops may provide deeper insight into how artificial systems incorporate prior context over time.
+
+\begin{thebibliography}{9}
+
+\bibitem{Ley2026}
+W. Leyshon,
+\textit{A Trigrammatic Compression Protocol for High-Density Semantic Representation},
+smithwork ai, 2026.
+
+\bibitem{fodor1975}
+J. A. Fodor,
+\textit{The Language of Thought},
+Harvard University Press, 1975.
+
+\end{thebibliography}
+
+\end{document}
