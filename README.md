@@ -47,26 +47,27 @@ This transition is referred to as the **“Abstract Leap”**.
 ## Repository Structure
 
 .
-├── code
-│   ├── analysis
-│   │   ├── analyze_results.py
-│   │   ├── convergence_analysis.py
-│   │   └── plot_results.py
-│   └── pipeline
-│       └── rem_experiment.py
-├── data
-│   ├── README.md
-│   └── test_inputs.py
-├── figures
-│   └── README.md
-├── notes
-│   └── README.md
-├── paper
-│   ├── paper.tex
-│   └── pre_post_load.pdf
-└── README.md
-
-8 directories, 11 files
+code/
+├── pipeline/
+│ └── rem_experiment.py
+│
+├── analysis/
+│ ├── analyze_results.py
+│ ├── convergence_analysis.py
+│ └── plot_results.py
+│
+data/
+├── test_inputs.py
+├── rem_experiment_results.csv
+├── rem_analysis_results.csv
+│
+figures/
+│
+notes/
+│
+paper/
+├── paper.tex
+└── paper.pdf
 
 
 ---
