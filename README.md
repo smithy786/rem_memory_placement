@@ -75,7 +75,6 @@ This transition is referred to as the **“Abstract Leap”**.
 
 ### 1. Generate responses
 
-```bash
 python3 code/pipeline/rem_experiment.py
 
 This will:
