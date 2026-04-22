@@ -46,6 +46,7 @@ This transition is referred to as the **“Abstract Leap”**.
 
 ## Repository Structure
 
+```bash
 
 .
 ├── code
@@ -152,3 +153,5 @@ Author
 
 William Leyshon
 SmithWork-AI, United Kingdom
+
+---
