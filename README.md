@@ -46,6 +46,8 @@ This transition is referred to as the **“Abstract Leap”**.
 
 ## Repository Structure
 
+```bash
+
 .
 ├── code
 │ ├── analysis
@@ -67,6 +69,7 @@ This transition is referred to as the **“Abstract Leap”**.
 └── README.md
 
 ---
+
 
 ## Running the Experiment
 
